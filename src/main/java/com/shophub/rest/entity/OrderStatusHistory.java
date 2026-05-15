@@ -3,7 +3,7 @@ package com.shophub.rest.entity;
 import com.shophub.rest.entity.enums.EOrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "order_status_history")
@@ -31,10 +31,10 @@ public class OrderStatusHistory {
     private Long changedBy;
 
     @Column(name = "changed_at", updatable = false)
-    private LocalDateTime changedAt;
+    private Instant changedAt;
 
     @PrePersist
     protected void onCreate() {
-        changedAt = LocalDateTime.now();
+        changedAt = Instant.now();
     }
 }
