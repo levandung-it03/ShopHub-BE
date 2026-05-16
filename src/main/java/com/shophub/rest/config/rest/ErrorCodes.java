@@ -13,6 +13,7 @@ public enum ErrorCodes {
     UNAWARE_ERR("Unaware exc thrown!", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_TOKEN("JWT is invalid!", HttpStatus.UNAUTHORIZED),
     FORBIDDEN_USER("User accessing denied!", HttpStatus.FORBIDDEN),
+    USER_NOTFOUND("User not found!", HttpStatus.BAD_REQUEST),
     ;
     String msg;
     HttpStatus httpStatus;

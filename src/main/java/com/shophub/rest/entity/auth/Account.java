@@ -1,5 +1,6 @@
 package com.shophub.rest.entity.auth;
 
+import com.shophub.rest.entity.enums.EProvider;
 import com.shophub.rest.entity.enums.EYesNo;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,8 +29,9 @@ public class Account {
     @Column(name = "password", nullable = false)
     String password;
 
-    @Column(name = "expired_password", nullable = false)
-    String expiredPassword;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provider", nullable = false)
+    EProvider provider;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "is_active", nullable = false)
@@ -39,8 +41,8 @@ public class Account {
     @Column(name = "created_at", nullable = false)
     Instant createdAt;
 
-    @Column(name = "update_msg")
-    String updateMsg;
+    @Column(name = "updatedAt", nullable = false)
+    Instant updatedAt;
 
     @OneToOne
     @JoinColumn(name = "authority_id", referencedColumnName = "id", updatable = false)
@@ -48,7 +50,9 @@ public class Account {
 
     @PrePersist
     protected void onCreate() {
+        provider = EProvider.LOCAL;
         isActive = EYesNo.YES;
         createdAt = Instant.now();
+        updatedAt = Instant.now();
     }
 }

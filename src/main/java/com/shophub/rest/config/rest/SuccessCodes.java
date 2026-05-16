@@ -14,7 +14,9 @@ public enum SuccessCodes {
     CREATE("Successfully created data!", HttpStatus.CREATED),
     UPDATE("Successfully updated data!", HttpStatus.CREATED),
     DELETE("Successfully deleted data!", HttpStatus.NO_CONTENT),
+    AUTH("Authenticated successfully!", HttpStatus.OK),
     ;
     String msg;
     HttpStatus httpStatus;
-}
+},
+

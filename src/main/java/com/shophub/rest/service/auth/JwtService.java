@@ -10,7 +10,6 @@ public class JwtService {
         return true;
     }
 
-
     public boolean isAuthorizedToken(String token) {
         return false;
     }
