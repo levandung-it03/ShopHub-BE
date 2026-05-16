@@ -7,11 +7,12 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public enum EAuthority {
-    SA("sa"), // SYS_ADMIN
-    AD("ad"), // ADMIN
-    MM("mm"), // MARKET_MANAGER
-    SP("sp"), // SUPPORT
-    US("us"), // USER
+    AUTH("auth"), // Authorized all
+    SYS_ADMIN("sysadmin"), // SYS_ADMIN
+    ADMIN("admin"), // ADMIN
+    MMANAGER("mmanager"), // MARKET_MANAGER
+    SUPPORT("support"), // SUPPORT
+    USER("user"), // USER
     ;
     String name;
     EAuthority(String name) {
