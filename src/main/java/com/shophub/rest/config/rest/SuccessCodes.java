@@ -15,8 +15,9 @@ public enum SuccessCodes {
     UPDATE("Successfully updated data!", HttpStatus.CREATED),
     DELETE("Successfully deleted data!", HttpStatus.NO_CONTENT),
     AUTH("Authenticated successfully!", HttpStatus.OK),
+    LOGOUT("Logged-out successfully!", HttpStatus.OK),
     ;
     String msg;
     HttpStatus httpStatus;
-},
+}
 

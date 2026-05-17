@@ -1,13 +1,12 @@
 package com.shophub.rest.repository;
 
-import com.shophub.rest.entity.auth.Account;
+import com.shophub.rest.entity.auth.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
-
-    Optional<Account> findByEmail(String email);
+public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
+    Optional<UserProfile> findByAccountId(Long accId);
 }

@@ -5,14 +5,13 @@ import com.shophub.rest.config.exception.FilterHandlingException;
 import com.shophub.rest.config.rest.ErrorCodes;
 import com.shophub.rest.config.rest.RequestCtxDataDelivery;
 import com.shophub.rest.entity.rest.JwtInfo;
-import com.shophub.rest.service.auth.JwtService;
+import com.shophub.rest.service.jwt.PublicJwtService;
 import com.shophub.rest.util.contants.CCommon;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,10 +33,10 @@ public class JWTAuthFilter extends BaseFilter {
     private final String[] verifiedUrlsByRefreshTkn = new String[] {
         CCommon.API.REFRESH_TOKEN
     };
-    private final JwtService jwtService;
+    private final PublicJwtService jwtService;
 
     @Autowired
-    public JWTAuthFilter(RequestCtxDataDelivery reqCtxDelivery, CommonEnvConfig envConfig, JwtService jwtService) {
+    public JWTAuthFilter(RequestCtxDataDelivery reqCtxDelivery, CommonEnvConfig envConfig, PublicJwtService jwtService) {
         super(reqCtxDelivery, envConfig);
         this.jwtService = jwtService;
     }
@@ -64,7 +63,7 @@ public class JWTAuthFilter extends BaseFilter {
 
             var jwtInfo = jwtService.read(token);
             this.registerSecurityContext(request, jwtInfo);
-            super.reqCtxDelivery.setJwtInfo(jwtInfo);
+            super.reqCtxDelivery.setAuthzedTokenInfo(jwtInfo);
 
             filterChain.doFilter(request, response);
         } catch (FilterHandlingException e) {

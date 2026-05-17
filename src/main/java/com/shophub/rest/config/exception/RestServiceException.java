@@ -15,4 +15,12 @@ public class RestServiceException extends BaseRestException {
     public RestServiceException(ErrorCodes errorCodes, String msg) {
         super(errorCodes, msg);
     }
+
+    public RestServiceException(Exception e) {
+        super(e);
+    }
+
+    public RestServiceException(ErrorCodes errorCodes, Exception e) {
+        super(errorCodes, e);
+    }
 }

@@ -6,6 +6,7 @@ public interface CCommon {
 
     interface Symbols {
         String ASTERISK = "*";
+        String EMPTY = "";
     }
 
     interface API {
@@ -26,5 +27,15 @@ public interface CCommon {
         String ADMIN = EAuthority.ADMIN.getName();
         String USER = EAuthority.USER.getName();
         String AUTH = EAuthority.AUTH.getName();
+    }
+
+    interface TOKEN {
+        String BEARER = "Bearer";
+        String BEARER_ = "Bearer ";
+        String PEM_PUBLIC = "PUBLIC";
+        String PEM_PRIVATE = "PRIVATE";
+
+        static String PEM_STARTER(String type) { return "-----BEGIN " + type + " KEY-----"; }
+        static String PEM_ENDER(String type) { return "-----END " + type + " KEY-----"; }
     }
 }

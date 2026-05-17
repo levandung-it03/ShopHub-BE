@@ -41,7 +41,7 @@ public class Account {
     @Column(name = "created_at", nullable = false)
     Instant createdAt;
 
-    @Column(name = "updatedAt", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     Instant updatedAt;
 
     @OneToOne

@@ -1,6 +1,5 @@
 package com.shophub.rest.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,11 +10,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthRequest {
-
-    @Email
-    String email;
+public class LogoutRequest {
 
     @NotEmpty
-    String password;
+    String token;
 }

@@ -14,6 +14,8 @@ public enum ErrorCodes {
     INVALID_TOKEN("JWT is invalid!", HttpStatus.UNAUTHORIZED),
     FORBIDDEN_USER("User accessing denied!", HttpStatus.FORBIDDEN),
     USER_NOTFOUND("User not found!", HttpStatus.BAD_REQUEST),
+    INVALID_CREDENTIALS("Email or password is incorrected", HttpStatus.BAD_REQUEST),
+    INVALID_ID("Invalid id on entity ${}", HttpStatus.BAD_REQUEST),
     ;
     String msg;
     HttpStatus httpStatus;
