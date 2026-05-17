@@ -1,0 +1,93 @@
+
+server:
+  port: 9990
+  tomcat:
+    relaxed-query-chars: "[, ]"
+
+logging:
+  level:
+    org.springframework:
+      security: DEBUG
+      web.cors: DEBUG
+spring:
+  application:
+    name: AUTH-SERVICE
+  jackson:
+    time-zone: "Asia/Ho_Chi_Minh"
+  security:
+    user:
+      name: none
+      password: none
+  datasource:
+    url: ${DB_CONNECTION:jdbc:postgresql://}/${DB_NAME:postgres}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:}
+  jpa:
+    # defer-datasource-initialization: ${DB_IS_INIT_DATA:true}   # Tell Spring to init Schema firstly, before Data is init
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+#  sql:
+#    init:
+#      mode: always
+#      encoding: UTF-8
+#      data-locations:
+#        - classpath:scripts/base_info.sql
+  data:
+    redis:
+      url: ${REDIS_CONNECTION:rediss}
+      timeout: 60000
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+env:
+  domain: ${APP_DOMAIN:localhost}
+  cookie:
+    secure: ${COOKIE_IS_SECURE:false}
+    same-site: ${COOKIE_SAME_SITE:Lax}
+  async-thread-pool:
+    prefix: ${ASYNC_THREAD_POOL_PREFIX:SagaRollback-Thread-}
+    min-size: ${ASYNC_THREAD_POOL_MIN_SIZE:10}
+    max-size: ${ASYNC_THREAD_POOL_MAX_SIZE:20}
+    queue-capacity: ${ASYNC_THREAD_POOL_QUEUE_CAPACITY:100}
+#  oauth2:
+#    backend-base-url: ${BACKEND_BASE_URL:http://localhost:9992}
+#    frontend-success-url: ${FRONTEND_SUCCESS_URL:http://localhost:3000}
+  token:
+    public-key-src: classpath:keys/jwt-public.pem
+    private-key-src: classpath:keys/jwt-private.pem
+    secret-key: ""
+    access-time: 605_000
+    refresh-time: 605_000
+  cloudinary:
+    cloud-name: ""
+    api-key: ""
+    api-secret: ""
+  biz:
+    ordering-retried-times: 3
+otel:
+  exporter:
+    otlp:
+      endpoint: https://otlp
+      protocol: http/protobuf
+      headers: Basic
+  logs:
+    exporter: none
+  resource:
+    attributes:
+      service.name: auth-service

@@ -1,7 +1,7 @@
 package com.shophub.rest.controller;
 
 import com.shophub.rest.config.rest.SuccessCodes;
-import com.shophub.rest.dto.AuthRequest;
+import com.shophub.rest.dto.request.AuthReq;
 import com.shophub.rest.entity.rest.RestApiResponse;
 import com.shophub.rest.service.auth.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping(API.PUBLIC + "/authenticate")
-    public RestApiResponse<Void> authenticate(@RequestBody @Valid AuthRequest request, HttpServletResponse response) {
+    public RestApiResponse<Void> authenticate(@RequestBody @Valid AuthReq request, HttpServletResponse response) {
         authService.authenticate(request, response);
         return RestApiResponse.fromSuccess(SuccessCodes.AUTH);
     }

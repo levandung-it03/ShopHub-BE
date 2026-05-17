@@ -24,7 +24,7 @@ public class UserProfile {
     @Column(name = "full_name", nullable = false)
     String fullName;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "authority_id", referencedColumnName = "id", updatable = false)
     Account account;
 

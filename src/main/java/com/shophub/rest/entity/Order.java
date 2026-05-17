@@ -1,52 +1,56 @@
 package com.shophub.rest.entity;
 
+import com.shophub.rest.entity.auth.UserProfile;
 import com.shophub.rest.entity.enums.EOrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "order", indexes = {
+    @Index(name = "idx_order_created_at", columnList = "created_at")
+})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    // Mapping to your existing User table
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
-    private BigDecimal totalAmount;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    UserProfile userCreated;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private EOrderStatus status;
+    EOrderStatus status;
 
     @Column(name = "shipping_address", nullable = false, columnDefinition = "TEXT")
-    private String shippingAddress;
+    String shippingAddress;
 
     @Column(name = "created_at", updatable = false)
-    private Instant createdAt;
+    Instant createdAt;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    Instant updatedAt;
 
     @Builder.Default
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    List<OrderItem> orderItems = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
+        status = EOrderStatus.ORDERED;
         createdAt = Instant.now();
         updatedAt = Instant.now();
     }

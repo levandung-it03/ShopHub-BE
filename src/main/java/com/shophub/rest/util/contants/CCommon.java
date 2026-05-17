@@ -24,9 +24,9 @@ public interface CCommon {
     }
 
     interface ROLE {
-        String ADMIN = EAuthority.ADMIN.getName();
-        String USER = EAuthority.USER.getName();
-        String AUTH = EAuthority.AUTH.getName();
+        String ADMIN = "admin";
+        String USER = "user";
+        String AUTH = "auth";
     }
 
     interface TOKEN {

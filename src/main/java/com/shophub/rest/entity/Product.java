@@ -2,6 +2,8 @@ package com.shophub.rest.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -14,13 +16,14 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
@@ -36,6 +39,9 @@ public class Product {
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
+    @Column(name = "image_public_id")
+    String imagePublicId;
+
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -44,6 +50,9 @@ public class Product {
 
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @Version
+    int version;
 
     @PrePersist
     protected void onCreate() {

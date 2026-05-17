@@ -2,6 +2,7 @@ package com.shophub.rest.repository;
 
 import com.shophub.rest.entity.auth.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -9,4 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
     Optional<UserProfile> findByAccountId(Long accId);
+
+    @Query("SELECT u FROM UserProfile u WHERE u.account.authority.authority = 'ADMIN' ")
+    Optional<UserProfile> getUniqueAdminProfile();
 }

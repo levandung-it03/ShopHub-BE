@@ -1,4 +1,12 @@
+# Biz
+- One `Admin`
+- Multiple `User`
+- Small **_Ecommerce_**
+- Notification + Billing base on Email.
+
 # Environment
+## 1. Repository usage:
+- Injecting directly to avoid Circle-Injecting Components in Spring context.
 
 # Endpoints
 ## 1. Structures:

@@ -5,7 +5,7 @@ import com.shophub.rest.config.exception.RestServiceException;
 import com.shophub.rest.config.rest.ETokenType;
 import com.shophub.rest.config.rest.ErrorCodes;
 import com.shophub.rest.config.rest.RequestCtxDataDelivery;
-import com.shophub.rest.dto.AuthRequest;
+import com.shophub.rest.dto.request.AuthReq;
 import com.shophub.rest.entity.auth.Account;
 import com.shophub.rest.entity.auth.UserProfile;
 import com.shophub.rest.entity.enums.EProvider;
@@ -40,7 +40,7 @@ public class AuthService implements IAuthService {
     RequestCtxDataDelivery reqCtxData;
 
     @Override
-    public void authenticate(AuthRequest request, HttpServletResponse response) {
+    public void authenticate(AuthReq request, HttpServletResponse response) {
         Account account = accountService.findByEmail(request.getEmail())
             .orElseThrow(() -> new RestServiceException(ErrorCodes.INVALID_CREDENTIALS));
 
