@@ -24,6 +24,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             )
         FROM Order o
         WHERE (:#{#req.fullNameCreatedBy} IS NULL OR o.userCreated.fullName LIKE CONCAT('%', :#{#req.fullNameCreatedBy},'%'))
+        ORDER BY
+            o.createdAt ASC,
+            o.status ASC
     """)
     Page<OrderSearchedRes> searchSimpleOrders(@Param("req") OrderSearchedReq req, Pageable pageable);
 }
