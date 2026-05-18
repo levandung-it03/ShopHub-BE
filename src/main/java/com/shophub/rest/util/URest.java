@@ -9,10 +9,10 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public interface URest {
-    ObjectMapper objectMapper = new ObjectMapper();
+public class URest {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    interface Security {
+    public static class Security {
 
         static void handleAccessDenied(HttpServletRequest req, HttpServletResponse res, AccessDeniedException exc) throws IOException {
             var errCode = ErrorCodes.FORBIDDEN_USER;

@@ -73,20 +73,19 @@ public class OrderService implements IOrderService {
             order.setOrderItems(orderItems);
 
         Order createdOrder = orderRepository.save(order);
-        OrderStatusHistory createdOrderStatus = orderStatusHistRepo
-            .save(orderStatusHistoryMapper.toEntity(order, userProfile));
+        orderStatusHistRepo.save(orderStatusHistoryMapper.toEntity(order, userProfile));
 
         String userEmail = userProfile.getAccount().getEmail();
         emailService.sendSimpleEmail(userEmail,
-            CEmailText.Order.CREATION_TITLE(userEmail),
-            CEmailText.Order.CREATION_HTML());
+            CEmailText.OrderMsg.CREATION_TITLE(createdOrder.getId()),
+            CEmailText.OrderMsg.USER_CREATION_HTML(createdOrder));
 
         UserProfile uniqueAdminProfile = userProfileRepository.getUniqueAdminProfile()
             .orElseThrow(() -> new RestServiceException(ErrorCodes.ADMIN_NOT_FOUND));
         String adminEmail = uniqueAdminProfile.getAccount().getEmail();
-        emailService.sendSimpleEmail(userEmail,
-            CEmailText.Order.CREATION_TITLE(adminEmail),
-            CEmailText.Order.CREATION_HTML());
+        emailService.sendSimpleEmail(adminEmail,
+            CEmailText.OrderMsg.CREATION_TITLE(order.getId()),
+            CEmailText.OrderMsg.ADMIN_CREATION_HTML(order));
 
         return IdRes.builder().id(createdOrder.getId()).build();
     }
