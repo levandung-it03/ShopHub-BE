@@ -15,4 +15,12 @@ public interface IOrderService {
     PaginationRes<OrderSearchedRes> searchSimpleOrders(PaginationReq<OrderSearchedReq> request);
 
     Order getById(Long id);
+
+    void cancelOrder(Long id);
+
+    void prepareOrder(Long id);
+
+    void checkInDeliveryOrder(Long id);
+
+    void closeOrder(Long id);
 }

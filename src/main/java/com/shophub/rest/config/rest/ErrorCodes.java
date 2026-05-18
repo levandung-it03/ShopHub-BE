@@ -23,6 +23,9 @@ public enum ErrorCodes {
     NEGATIVE_QTY("Negative quantity appeared, please check again!", HttpStatus.BAD_REQUEST),
     BUSY_ORDERING_SVC("Order has been terminated cause of busy services, please try again!", HttpStatus.BAD_REQUEST),
     ADMIN_NOT_FOUND("Admin application not found", HttpStatus.BAD_REQUEST),
+    ORDER_CANCELING_NOT_ORDERED_STS("Just the Order with ORDERED status can be Canceled", HttpStatus.BAD_REQUEST),
+    ORDER_DELIVERY_NOT_PREPARING_STS("Just the Order with PREPARING status can be Delivered", HttpStatus.BAD_REQUEST),
+    ORDER_CLOSE_NOT_DELIVERY_STS("Just the Order with IN_DELIVERY status can be Closed", HttpStatus.BAD_REQUEST),
     ;
     String msg;
     HttpStatus httpStatus;

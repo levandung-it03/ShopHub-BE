@@ -2,6 +2,7 @@ package com.shophub.rest.util.contants;
 
 import com.shophub.rest.entity.Invoice;
 import com.shophub.rest.entity.Order;
+import com.shophub.rest.entity.auth.UserProfile;
 
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
@@ -109,7 +110,7 @@ public class CEmailText {
             return "[ShobHub] Order #" + orderId + " Has Been Cancelled";
         }
 
-        public static String CANCEL_HTML(Order order, String cancelledByRole) {
+        public static String NOTICE_CANCELING_BY_ADMIN_HTML(Order order, UserProfile adminProfile) {
             return String.format("""
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
                         <div style="background-color: #F44336; color: white; padding: 20px; text-align: center;">
@@ -118,9 +119,10 @@ public class CEmailText {
                         </div>
                         <div style="padding: 20px; color: #333333; line-height: 1.6;">
                             <p>Hi there,</p>
-                            <p>Your Order <strong>#%d</strong> has been officially cancelled by the <strong>%s</strong>.</p>
+                            <p>Your Order <strong>#%d</strong> has been officially cancelled by Admin <strong>%s</strong>.</p>
                             <p>If any payment was authorized, refunds will be routed automatically back into your account balance according to standard banking windows (usually 2-5 business days).</p>
                             <p>We look forward to serving you better next time around.</p>
+                            <p>Contact directly for any further information: %s</p>
                             <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;"/>
                             <p style="font-size: 12px; color: #777777; text-align: center;">ShobHub Support Team</p>
                         </div>
@@ -128,7 +130,29 @@ public class CEmailText {
                     """,
                 order.getId(),
                 order.getId(),
-                cancelledByRole
+                adminProfile.getFullName(),
+                adminProfile.getAccount().getEmail()
+            );
+        }
+
+        public static String NOTICE_CANCELING_BY_OWNER_HTML(Order order) {
+            return String.format("""
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+                        <div style="background-color: #F44336; color: white; padding: 20px; text-align: center;">
+                            <h2 style="margin: 0;">Order Cancelled</h2>
+                            <p style="margin: 5px 0 0 0;">Order ID: #%d</p>
+                        </div>
+                        <div style="padding: 20px; color: #333333; line-height: 1.6;">
+                            <p>Noticed by System,</p>
+                            <p>The Order <strong>#%d</strong> has been officially cancelled by Order owner.</p>
+                            <p>Take a look on system if any changes are <strong>unpredictable</strong>.</p>
+                            <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;"/>
+                            <p style="font-size: 12px; color: #777777; text-align: center;">ShobHub Support Team</p>
+                        </div>
+                    </div>
+                    """,
+                order.getId(),
+                order.getId()
             );
         }
 
@@ -136,7 +160,7 @@ public class CEmailText {
             return "[ShobHub] Your order #" + orderId + " is being prepared!";
         }
 
-        public static String PREPARE_HTML(Order order) {
+        public static String PREPARE_HTML(Order order, String adminEmail) {
             return String.format("""
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
                         <div style="background-color: #FF9800; color: white; padding: 20px; text-align: center;">
@@ -147,12 +171,14 @@ public class CEmailText {
                             <p>Great news! Your order has been confirmed by our merchant administration.</p>
                             <p>Our team is carefully packing your items right now to guarantee fresh and secure fulfillment.</p>
                             <p>Hang tight! We will send you another update once the package is handed over to our driver.</p>
+                            <p>Contact directly for any further information: %s</p>
                             <hr style="border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;"/>
                             <p style="font-size: 12px; color: #777777; text-align: center;">ShobHub Operations</p>
                         </div>
                     </div>
                     """,
-                order.getId()
+                order.getId(),
+                adminEmail
             );
         }
 
@@ -160,7 +186,7 @@ public class CEmailText {
             return "[ShobHub] Out for Delivery! Order #" + orderId + " is on its way";
         }
 
-        public static String DELIVERY_HTML(Order order) {
+        public static String DELIVERY_HTML(Order order, String adminEmail) {
             return String.format("""
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
                         <div style="background-color: #2196F3; color: white; padding: 20px; text-align: center;">
@@ -177,27 +203,25 @@ public class CEmailText {
                             </div>
                     
                             <p>Please make sure you are available or have designated someone at the site to accept your package delivery.</p>
+                            <p>Contact directly with %s for any further information.</p>
                         </div>
                     </div>
                     """,
                 order.getId(),
-                order.getShippingAddress()
+                order.getShippingAddress(),
+                adminEmail
             );
         }
 
-        public static String USER_CLOSE_TITLE(Long orderId) {
-            return "[ShobHub] Delivered! Your Order #" + orderId + " is complete";
-        }
-
-        public static String CLOSE_USER_TITLE(Long orderId) {
+        public static String BILL_FOR_USER_TITLE(Long orderId) {
             return "[ShobHub] Delivered & Invoiced! Order #" + orderId + " is complete";
         }
 
-        public static String CLOSE_ADMIN_TITLE(Long orderId) {
+        public static String BILL_FOR_ADMIN_TITLE(Long orderId) {
             return "[SYSTEM] Order #" + orderId + " has been successfully CLOSED";
         }
 
-        public static String CLOSE_USER_HTML(Invoice invoice) {
+        public static String BILL_FOR_USER_HTML(Invoice invoice) {
             String itemsRows = buildInvoiceTableRows(invoice);
             Order order = invoice.getOrder();
 
@@ -253,7 +277,7 @@ public class CEmailText {
             );
         }
 
-        static String CLOSE_ADMIN_HTML(Long orderId, Long invoiceId, String clientEmail, BigDecimal total) {
+        public static String BILL_FOR_ADMIN_HTML(Invoice invoice) {
             return String.format("""
                     <div style="font-family: Arial, sans-serif; max-width: 550px; margin: auto; border: 1px solid #dcdcdc; border-radius: 6px; overflow: hidden;">
                         <div style="background-color: #333333; color: #ffffff; padding: 12px 20px; font-size: 14px; font-weight: bold;">
@@ -273,10 +297,10 @@ public class CEmailText {
                         </div>
                     </div>
                     """,
-                orderId,
-                invoiceId,
-                clientEmail,
-                total.toString()
+                invoice.getOrder().getId(),
+                invoice.getId(),
+                invoice.getOrder().getUserCreated().getAccount().getEmail(),
+                invoice.getTotalAmount()
             );
         }
 

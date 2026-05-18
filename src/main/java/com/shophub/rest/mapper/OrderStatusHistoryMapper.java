@@ -10,13 +10,4 @@ import java.time.Instant;
 
 @Component
 public class OrderStatusHistoryMapper {
-
-    public OrderStatusHistory toEntity(Order order, UserProfile changedBy) {
-        return OrderStatusHistory.builder()
-            .order(order)
-            .status(EOrderStatus.ORDERED)
-            .changedAt(Instant.now())
-            .changedBy(changedBy)
-            .build();
-    }
 }

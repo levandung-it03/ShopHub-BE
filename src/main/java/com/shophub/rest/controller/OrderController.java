@@ -39,4 +39,32 @@ public class OrderController {
     public RestApiResponse<Order> get(@PathVariable Long id) {
         return RestApiResponse.fromSuccess(SuccessCodes.GET, orderService.getById(id));
     }
+
+    @PostMapping(value = {
+        API.SECURE + ROLE.ADMIN + "/order/cancel/{id}",
+        API.SECURE + ROLE.USER + "/order/cancel/{id}"
+    })
+    public RestApiResponse<Void> cancelOrder(@PathVariable Long id) {
+        orderService.cancelOrder(id);
+        return RestApiResponse.fromSuccess(SuccessCodes.UPDATE);
+    }
+
+    @PostMapping(API.SECURE + ROLE.ADMIN + "/order/prepare/{id}")
+    public RestApiResponse<Void> prepareOrder(@PathVariable Long id) {
+        orderService.prepareOrder(id);
+        return RestApiResponse.fromSuccess(SuccessCodes.UPDATE);
+    }
+
+    @PostMapping(API.SECURE + ROLE.ADMIN + "/order/delivery/{id}")
+    public RestApiResponse<Void> checkInDeliveryOrder(@PathVariable Long id) {
+        orderService.checkInDeliveryOrder(id);
+        return RestApiResponse.fromSuccess(SuccessCodes.UPDATE);
+    }
+
+    @PostMapping(API.SECURE + ROLE.ADMIN + "/order/close/{id}")
+    public RestApiResponse<Void> closeOrder(@PathVariable Long id) {
+        orderService.closeOrder(id);
+        return RestApiResponse.fromSuccess(SuccessCodes.UPDATE);
+    }
+
 }
