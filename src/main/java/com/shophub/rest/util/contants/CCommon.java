@@ -20,7 +20,7 @@ public interface CCommon {
 
         String SECURE = "/api/private";
         String PUBLIC = "/api/public";
-        String REFRESH_TOKEN = SECURE + "/auth/";
+        String REFRESH_TOKEN = SECURE + "/auth/refresh-token";
     }
 
     interface ROLE {
